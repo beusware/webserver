@@ -1,0 +1,19 @@
+{
+  "compilerOptions": {
+    "outDir": "./build/",
+    "module": "es6",
+    "target": "es5",
+    "baseUrl": "./",
+    "noImplicitAny": true,
+    "moduleResolution": "node",
+    "typeRoots": [
+      "./node_modules/@types"
+    ],
+  },
+  "files": [
+    "backend/src/app.ts"
+  ],
+  "include": [
+    "src/**/*", 
+  ]
+}

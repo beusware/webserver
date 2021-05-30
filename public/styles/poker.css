@@ -1,0 +1,227 @@
+@import url('https://fonts.googleapis.com/css2?family=Montserrat&family=Zilla+Slab:wght@300&display=swap');
+
+body {
+  display: flex;
+
+  margin: 0;
+  height: 100vh;
+  flex-direction: column;
+  justify-content: center;
+  background-color: #29452a;
+}
+
+/*
+29452a
+315031
+3b623b
+416d41
+4c7849
+*/
+
+h1 {
+  position: relative;
+  display: block;
+
+  font-size: 96px;
+  margin: 0 0;
+  color: #FFFFFF;
+  text-align: center;
+  font-family: "Zilla Slab";
+}
+
+/* LOGIN OR INFORMATION */
+.information-wrapper {
+  text-align: center;
+}
+
+input, button {
+  margin: 4px;
+  width: 300px;
+  height: 50px;
+  border: none;
+  outline: none;
+  padding: 14px;
+  font-size: 16px;
+  color: #FFFFFF80;
+  box-sizing: border-box;
+
+  background-color: #315031;
+}
+
+input, button:hover, button:focus {
+  color: #FFFFFF;
+}
+
+button:hover, button:focus {
+  background-color: #416d41;
+}
+
+input::placeholder {
+  color: #FFFFFF80;
+}
+
+.title-cards {
+  margin: 48px 0;
+  max-width: 50vw;
+}
+
+p, span {
+  font-size: 24px;
+  color: #ffffff;
+  font-family: "Montserrat";
+}
+
+.information, .gamestate {
+  display: none;
+}
+
+.game {
+  display: none;
+
+  margin: 25px;
+  height: 100vh;
+  flex-direction: column;
+}
+
+.game > div {
+  height: calc(100vh - 156px);
+}
+
+.player-list {
+  position: relative;
+  display: flex;
+
+  flex-wrap: wrap;
+  flex-direction: row;
+  justify-content: center;
+  align-content: flex-start;
+  height: 156px !important;
+}
+
+.player {
+  height: 2em;
+  margin: 15px;
+  padding: 10px;
+  text-align: center;
+  box-sizing: border-box;
+  width: calc(25% - 30px);
+  background-color: #3B623B;
+}
+
+.lower-wrapper, .table, .hand {
+  display: flex;
+
+  justify-content: space-between;
+}
+
+.hand {
+  width: calc(calc(500px + calc(calc(100% - 1250px) / 4)) + 20px);
+}
+
+.card {
+  width: 250px;
+  margin: 15px;
+  height: 356px;
+
+  height: 276px;
+  width: auto;
+
+  box-sizing: border-box;
+
+  border-radius: 15px;
+}
+
+.container {
+  position: relative;
+
+  height: calc(100vh - calc(4em + 4vw));
+}
+
+.button-wrapper {
+  display: flex;
+
+  width: 250px;
+  margin: 15px;
+  flex-direction: column;
+  justify-content: space-between;
+}
+
+.action-button {
+  display: block;
+
+  height: 2em;
+  width: 250px;
+  padding: 10px;
+  font-size: 24px;
+  margin: 0 0 15px 0;
+  font-family: "Montserrat";
+}
+
+#quit-button {
+  margin: 5px 0 0 0 !important;
+}
+
+.chat {
+  position: relative;
+
+  margin: 15px;
+  height: 276px;
+  background-color: #3B623B;
+  width: calc(500px + calc(calc(100% - 1250px) / 4));
+}
+
+.messages {
+  position: absolute;
+
+  height: calc(100% - 55px);
+  width: 100%;
+  overflow: auto;
+  padding-left: 1em;
+}
+
+.messages > p > span {
+  font-size: 16px;
+}
+
+#chat-input {
+  position: absolute;
+
+  margin: 0;
+  bottom: 0;
+  width: 100%;
+  height: 55px;
+  padding: 1em;
+  box-sizing: border-box;
+}
+
+.blind {
+  color: #C9C9C9;
+}
+
+.chat p {
+  font-size: 16px; 
+  color: #CCCCCC;
+}
+
+.command {
+  color: #020072;
+}
+
+.system {
+  color: #CC0066;
+}
+
+.chit {
+
+}
+
+@media only screen and (max-width: 620px) {
+  h1 {
+    font-size: 48px;
+  }
+
+  input, button {
+    width: 75vw;
+    text-align: center;
+  }
+}

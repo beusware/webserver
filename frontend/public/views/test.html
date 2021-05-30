@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Document</title>
+  <style>
+    body {
+      background: red;
+    }
+
+    .cards {
+      display: flex;
+
+      max-width: 100%;
+      min-width: 100%;
+      align-content: center;
+    }
+
+    .cardWrapper {
+      overflow: hidden;
+      box-shadow: 0 0 20px 0 black;
+    }
+
+    .card {
+      display: flex;
+
+      width: 250px;
+      height: 356px;
+      padding-right: 10px;
+      align-items: center;
+      flex-direction: column;
+      justify-content: center;
+      background-image: url("webserver/frontend/public/assets/poker/cards/clubs2.png");
+    }
+  </style>
+</head>
+
+<body>
+  <div class="cards">
+    <div class="cardWrapper">
+      <div class="card"></div>
+    </div>
+    <div class="cardWrapper">
+      <div class="card"></div>
+    </div>
+    <div class="cardWrapper">
+      <div class="card"></div>
+    </div>
+    <div class="cardWrapper">
+      <div class="card"></div>
+    </div>
+    <div class="cardWrapper">
+      <div class="card"></div>
+    </div>
+  </div>
+</body>
+
+</html>

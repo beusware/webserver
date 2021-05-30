@@ -1,0 +1,49 @@
+{
+  "name": "webserver",
+  "description": "A system designed for our school",
+  "author": "David Penkowoj",
+  "license": "BSD-2-Clause",
+  "version": "1.0.0",
+  "main": "app.ts",
+  "scripts": {
+    "build": "webpack",
+    "test": "nodemon test.ts"
+  },
+  "bin": "./build/app.js",
+  "pkg": {
+    "assets": "public",
+    "outputPath": "./build/bin/"
+  },
+  "dependencies": {
+    "colors": "^1.4.0",
+    "express": "^4.17.1",
+    "ffmpeg-static": "^4.3.0",
+    "ip": "^1.1.5",
+    "multer": "^1.4.2",
+    "os-utils": "^0.0.14",
+    "socket.io": "^4.0.1",
+    "socket.io-client": "^4.0.1",
+    "ytdl-core": "^4.5.0"
+  },
+  "devDependencies": {
+    "@types/ip": "^1.1.0",
+    "@types/multer": "^1.4.5",
+    "@types/os-utils": "^0.0.1",
+    "@types/socket.io": "^2.1.13",
+    "babel-loader": "^8.2.2",
+    "raw-loader": "^4.0.2",
+    "ts-loader": "^9.1.1",
+    "typescript": "^4.2.4",
+    "webpack": "^5.35.1",
+    "webpack-async-await": "^1.1.0",
+    "webpack-cli": "^4.6.0"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/beusware/webserver.git"
+  },
+  "bugs": {
+    "url": "https://github.com/beusware/webserver/issues"
+  },
+  "homepage": "https://github.com/beusware/webserver#readme"
+}

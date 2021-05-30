@@ -1,0 +1,61 @@
+<!DOCTYPE HTML>
+
+<html lang="de">
+
+<head>
+  <title>Hilfe Fuchs</title>
+  <meta charset="UTF-8">
+  <meta name="author" content="David Penkowoj">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link rel="stylesheet" type="text/css" href="/styles/index.css">
+  <link rel="shortcut icon" href="assets/fuchs.png" type="image/x-icon">
+</head>
+
+<body>
+  <noscript>Ihr Browser unterstützt einige Features dieser Seite nicht!</noscript>
+  <img id="logo" src="assets/fuchs.png" alt="Fuchs">
+  <h1>Hilfe Fuchs</h1>
+  <h2>Rechte bei Jesper-Ole Wehrsig & David Penkowoj</h2>
+  <div>
+    <button class="dropdown" data-index="0">FAQs</button>
+    <div class="panel">
+      <a href="faq/audio">Audio</a>
+      <a href="faq/video">Video</a>
+      <a href="faq/licht">Licht</a>
+      <a href="faq/rigging">Rigging</a>
+    </div>
+    <button class="dropdown" data-index="1">Erklärungen</button>
+    <div class="panel">
+      <a href="explanation/audio">Audio</a>
+      <a href="explanation/video">Video</a>
+      <a href="explanation/licht">Licht</a>
+      <a href="explanation/rigging">Rigging</a>
+    </div>
+    <button class="dropdown" data-index"2">Weiteres</button>
+    <div class="panel">
+      <a href="vokabular">Vokabular</a>
+    </div>
+  </div>
+  <script type="text/javascript">
+    const buttons = document.getElementsByClassName("dropdown");
+
+    for (let i = 0; i < buttons.length; i++) {
+      if (i == buttons.length) continue;
+
+      buttons[i].addEventListener("click", (event) => {
+        event.target.classList.toggle("active");
+
+        let panel = event.target.nextElementSibling;
+
+        panel.style.maxHeight = (panel.style.maxHeight ? null : `${panel.scrollHeight}px`);
+      });
+    }
+
+    const sendTo = (string) => {
+      location.assign(`${location.origin}/${string}`);
+    }
+  </script>
+</body>
+
+</html>

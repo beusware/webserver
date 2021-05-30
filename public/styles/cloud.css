@@ -1,0 +1,97 @@
+@import url('https://fonts.googleapis.com/css2?family=Montserrat&display=swap');
+
+body {
+  background-color: #101925;
+}
+
+.list {
+  width: 60vw;
+  margin-left: 20vw;
+  text-align: center;
+}
+
+a {
+  display: block;
+
+  margin: 4px;
+  font-size: 18px;
+  text-align: left;
+  color: #FFFFFF80;
+  text-decoration: none;
+  font-family: "Montserrat";
+
+  transition: all 0.1s;
+}
+
+a:hover, a:focus {
+  outline: none;
+  color: #FFFFFF;
+
+  transition: all 0.1s;
+}
+
+a::before {
+  position: absolute;
+  content: "⮞";
+
+  opacity: 0;
+  transform: translate(-225%, -10%);
+
+  transition: all 0.1s;
+}
+
+a:hover::before, a:focus::before {
+  content: "➤ ";
+
+  opacity: 1;
+  transform: translate(-125%, -10%);
+
+  transition: all 0.1s;
+}
+
+input {
+  outline: none;
+  width: calc(420px + 3em);
+}
+
+input[type="file"] {
+  width: 60vw;
+  height: 3em;
+  font-size: 18px;
+  color: transparent;
+  border-radius: 15px;  
+  text-align: center;
+  background-color: #274E9C;
+}
+
+input[type="file"]::-webkit-file-upload-button {
+  visibility: hidden;
+}
+
+input[type="file"]::before {
+  display: block;
+  content: "Hochladen";
+
+  height: 2em;
+  outline: none;
+  cursor: pointer;
+  font-size: 18px;
+  padding-top: 1em;
+  line-height: 0.9;
+  color: #FFFFFF;
+  text-align: center;
+  font-family: "Montserrat";
+}
+
+input[type="file"]:hover::before {
+  background-color: #274E9C;
+}
+
+input[type="file"]:active {
+  outline: 0;
+}
+
+.input-wrapper {
+  margin-top: 2em;
+  text-align: center;
+}
