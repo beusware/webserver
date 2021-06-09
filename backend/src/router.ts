@@ -3,9 +3,9 @@ import * as path from "path";
 import * as multer from "multer";
 import { Router } from "express";
 
-import { Util } from "./helpers/util";
-import { log } from "./helpers/log_handler";
-import * as constants from "./helpers/constants";
+import { Util } from "../../helpers/util";
+import { log } from "../../helpers/log_handler";
+import * as constants from "../../helpers/constants";
 
 export const router = Router();
 
