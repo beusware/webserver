@@ -12,7 +12,8 @@ export const router = Router();
 const cloudDataDirectory = constants.paths.cloudDataDirectory;
 const htmlpath = constants.paths.viewsDirectory;
 
-// Saves files to disk // TODO: Move to backend util
+// TODO: Move to backend util
+// Saves files to disk
 const diskStorage = multer.diskStorage({
   destination: (_, __, cb) => {
     cb(null, cloudDataDirectory);
@@ -62,7 +63,7 @@ router.get(["/cloud/:file"], (req, res) => {
 });
 
 // Cloud upload
-router.post("/cloud/upload", multer({storage: diskStorage}).single("file"), (_, res) => {
+router.post("/cloud/upload", multer.default({storage: diskStorage}).single("file"), (_, res) => {
   res.sendStatus(200);
 });
 

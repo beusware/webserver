@@ -103,7 +103,10 @@ dist
 # TernJS port file
 .tern-port
 
-backend/data/*
+# Custom exceptions
 build/
+backend/data/
 public/assets/poker/
+public/scripts/
+.public/
 .nologs

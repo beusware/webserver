@@ -56,7 +56,7 @@ const frontendConfig = {
   },
   output: {
     filename: "[name].js",
-    path: path.resolve(__dirname, "public/scripts/"),
+    path: path.resolve(__dirname, "frontend/public/scripts/"),
   },
   resolve: resolveExtensions,
   module: moduleRules,

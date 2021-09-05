@@ -10,7 +10,7 @@ import { cloudsocket } from "./cloud/cloudsocket";
 import { pokersocket } from "./poker/pokersocket";
 import { dashboardsocket } from "./dashboard/dashboardsocket";
 
-const app = express();
+const app = express.default();
 const directory = constants.paths.publicDirectory;
 
 app.use("/", express.static(directory));

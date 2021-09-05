@@ -16,6 +16,13 @@ body {
   box-shadow: 0 0 50px #00000080;
 }
 
+.graph canvas {
+  position: relative;
+
+  width: 100% !important;
+  height: 100% !important;
+}
+
 .services {
   display: flex;
 

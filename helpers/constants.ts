@@ -5,7 +5,7 @@ export const HTTPS_PORT = 8443;
 
 export const paths = {
     cloudDataDirectory: path.resolve(`${__dirname}/../backend/data/cloud/`),
-    publicDirectory: path.resolve(`${__dirname}/../public/`),
-    viewsDirectory: path.resolve(`${__dirname}/../public/views/`),
+    publicDirectory: path.resolve(`${__dirname}/../frontend/public/`),
+    viewsDirectory: path.resolve(`${__dirname}/../frontend/public/views/`),
     certificateDirectory: path.resolve(`${__dirname}/../certificates/`),
 }

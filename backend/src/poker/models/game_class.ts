@@ -4,8 +4,8 @@ import { Dealer } from "./dealer_class";
 import { Card } from "./card_class";
 import { Round } from "./round_class";
 import { Util } from "../../../../helpers/util";
-import * as fs from "fs";
 import * as path from "path";
+import * as fs from "fs";
 
 let interval: NodeJS.Timeout;
 
