@@ -106,7 +106,8 @@ dist
 # Custom exceptions
 build/
 backend/data/
-public/assets/poker/
-public/scripts/
+frontend/public/assets/poker/
+frontend/public/scripts/
+package-lock.json
 .public/
 .nologs
