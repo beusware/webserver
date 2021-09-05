@@ -28,6 +28,7 @@
   "devDependencies": {
     "@types/ip": "^1.1.0",
     "@types/multer": "^1.4.5",
+    "@types/node": "^15.12.2",
     "@types/os-utils": "^0.0.1",
     "@types/socket.io": "^2.1.13",
     "babel-loader": "^8.2.2",

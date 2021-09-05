@@ -26,8 +26,8 @@ export class Dealer {
  
   // FIXME: Splice evtl. ein Index zu hoch
   deal(): Card {
-    let index = Util.randomNumber(0, this.cards.length - 1);
-    let card = this.cards[index];
+    let index: number = Util.randomNumber(0, this.cards.length - 1);
+    let card: Card = this.cards[index];
 
     this.cards.splice(index, 1);
     return card;

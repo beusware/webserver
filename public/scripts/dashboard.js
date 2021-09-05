@@ -376,7 +376,7 @@ eval("\nObject.defineProperty(exports, \"__esModule\", ({ value: true }));\nexpo
 /***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
 
 "use strict";
-eval("__webpack_require__.r(__webpack_exports__);\n/* harmony import */ var socket_io_client__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! socket.io-client */ \"./node_modules/socket.io-client/wrapper.mjs\");\n\nvar socket = (0,socket_io_client__WEBPACK_IMPORTED_MODULE_0__.default)();\nvar graph = document.querySelector(\".graph\");\nsocket.on(\"tick\", function (data) {\n    // const p = document.createElement(\"p\");\n    // p.innerText = data;\n    // graph.append(document.createElement(\"p\"));\n    graph.innerHTML = data.toString();\n});\n\n\n//# sourceURL=webpack://webserver/./frontend/src/dashboard.ts?");
+eval("__webpack_require__.r(__webpack_exports__);\n/* harmony import */ var socket_io_client__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! socket.io-client */ \"./node_modules/socket.io-client/wrapper.mjs\");\n\r\nvar socket = (0,socket_io_client__WEBPACK_IMPORTED_MODULE_0__.default)();\r\nvar graph = document.querySelector(\".graph\");\r\nsocket.on(\"tick\", function (data) {\r\n    // const p = document.createElement(\"p\");\r\n    // p.innerText = data;\r\n    // graph.append(document.createElement(\"p\"));\r\n    graph.innerHTML = data.toString();\r\n});\r\n\n\n//# sourceURL=webpack://webserver/./frontend/src/dashboard.ts?");
 
 /***/ }),
 

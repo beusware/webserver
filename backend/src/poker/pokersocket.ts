@@ -6,26 +6,47 @@ import { Card } from "./models/card_class";
 const game: Game = new Game();
 let io: any;
 
-const roundStarting = (id: string, card: Card): void => {
+const gameClientInteraction = (_: any): void => {
   // Symbolisiert auf Clienstite, dass die Runde startet
-  if (!card) {
+  if (_.action == "renderPlayerlist") {
     io.emit("roundStarting", game.currentPlayers);
-    return
+    return;
   }
-  // Zeigt Clientsite die ersten 2 Karten an
-  if (id) {
-    io.to(id).emit('preflop', card);
-    return
+
+  if (_.action == "yourTurn") {
+    io.to(_.id).emit("yourTurn");
+    return;
   }
-  // Zeigt Clientsite die nächste Karte vom Tisch an
-  io.emit("nextCard", card); // Implement on Client
+
+  if (_.card) {
+    // Zeigt Clientsite die ersten 2 Karten an
+    if (_.id) {
+      io.to(_.id).emit('preflop', _.card);
+      return;
+    }
+    // Zeigt Clientsite die nächste Karte vom Tisch an
+    io.emit("nextCard", _.card); // Implement on Client
+    return;
+  }
+
+  if (_.action == "msg") {
+    // Schickt eine Nachricht an Textfeld des Clients
+    if (_.id) {
+      routeMessage(_.id, _.content);
+      return;
+    }
+
+    // Schickt eine Nachricht an alle
+    routeMessage(null, _.content);
+    return;
+  }
 }
 
-const routeMessage = (socket: any, message: string): void => {
-  let messageObject: any = game.evaluateMessage(message, socket.id);
+const routeMessage = (socketId: string, message: string): void => {
+  let messageObject: any = game.evaluateMessage(message, socketId);
 
   if (messageObject.system) {
-    socket.emit("appendMessage", messageObject);
+    io.to(socketId).emit("appendMessage", messageObject);
     return;
   }
 
@@ -37,10 +58,14 @@ export const pokersocket = (pio: any) => {
 
   io.on("connection", (socket: any) => {
     socket.on("joinRequest", async (name: string) => {
-      let response = await game.join(name, socket.id, roundStarting);
+      let response = await game.join(name, socket.id, gameClientInteraction);
       socket.emit("joinResponse", response);
 
-      socket.on("sendMessage", (message: string) => {routeMessage(socket, message);});
+      socket.on("action", (action: string, amount?: number) => {
+        //game.preflop(action, amount);
+      });
+
+      socket.on("sendMessage", (message: string) => {routeMessage(socket.id, message);});
     });
 
     socket.on("disconnect", () => {

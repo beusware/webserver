@@ -51,15 +51,24 @@
         </div>
         <div class="button-wrapper">
           <div>  
-            <button class="action-button">Check</button>
-            <button class="action-button">Raise</button>
-            <button class="action-button">Pass</button>
+            <button class="action-button" disabled onclick="check()">Check</button>
+            <button id="raise" class="action-button" disabled onclick="raise()">Raise</button>
+            <button class="action-button" onclick="pass()">Pass</button>
           </div>
           <button id="quit-button" class="action-button">Quit</button>
         </div>
       </div>
     </div>
   </div>
+  <script> 
+    function raise() {
+      console.log("etwas");
+    }
+  
+    function pass() {
+      var a = document.querySelector("#raise");
+      a.disabled = !a.disabled;
+    }
+  </script>
 </body>
-
 </html>

@@ -3,7 +3,7 @@ import * as http from "http";
 import * as express from "express";
 import { Server } from "socket.io";
 
-import { router } from "../../router";
+import { router } from "./router";
 import { log } from "../../helpers/log_handler";
 import * as constants from "../../helpers/constants";
 import { cloudsocket } from "./cloud/cloudsocket";

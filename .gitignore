@@ -105,4 +105,5 @@ dist
 
 backend/data/*
 build/
+public/assets/poker/
 .nologs

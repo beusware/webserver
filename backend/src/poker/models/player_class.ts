@@ -7,6 +7,7 @@ export class Player {
   cards: Array<Card>;
   blind: string;
   notPlaying: boolean;
+  lastBet: number = 0;
 
   constructor(id: string, name: string, chips: number = 5000, cards: Array<Card> = [], blind: string = "", notPlaying: boolean = false) {
     this.id = id;
@@ -51,6 +52,10 @@ export class Player {
   quit(_: any) {
     console.log("asd");
     return;
+  }
+
+  system(_: string) {
+    return _.replace("system ", "");
   }
 
   //cards = [];
