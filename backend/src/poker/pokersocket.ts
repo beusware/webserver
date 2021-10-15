@@ -2,6 +2,7 @@ import { log } from "../../../helpers/log_handler";
 import { Util } from "../../../helpers/util";
 import { Game } from "./models/game_class";
 import { Card } from "./models/card_class";
+import { Message } from "./models/message_class";
 
 const game: Game = new Game();
 let io: any;
@@ -11,6 +12,10 @@ const gameClientInteraction = (_: any): void => {
   if (_.action == "renderPlayerlist") {
     io.emit("roundStarting", game.currentPlayers);
     return;
+  }
+
+  if (_.action == "checkButtonTo") {
+    io.to(_.id).emit("checkButtonTo", _.innerText);
   }
 
   if (_.action == "yourTurn") {
@@ -29,28 +34,31 @@ const gameClientInteraction = (_: any): void => {
     return;
   }
 
-  if (_.action == "msg") {
-    // Schickt eine Nachricht an Textfeld des Clients
-    if (_.id) {
-      routeMessage(_.id, _.content);
+  if (_.constructor.name == "Message") {
+    // sends message to every client
+    if (_.toAllPlayers) {
+      io.emit("appendMessage", _);
       return;
     }
 
-    // Schickt eine Nachricht an alle
-    routeMessage(null, _.content);
-    return;
+    // sends message only to a specified client
+    io.to(_.id).emit("appendMessage", _);
   }
 }
 
 const routeMessage = (socketId: string, message: string): void => {
-  let messageObject: any = game.evaluateMessage(message, socketId);
-
-  if (messageObject.system) {
-    io.to(socketId).emit("appendMessage", messageObject);
-    return;
+  // [0]: message send, [1]: gameResponse by typed command
+  let messageObjects: Array<Message> = game.evaluateMessage(message, socketId);
+  
+  for (let message of messageObjects) {
+    if (message) {
+      if (message.toAllPlayers) {
+        io.emit("appendMessage", message);
+      } else {
+        io.to(message.id).emit("appendMessage", message);
+      }
+    }
   }
-
-  io.emit("appendMessage", messageObject);
 }
 
 export const pokersocket = (pio: any) => {
@@ -60,10 +68,6 @@ export const pokersocket = (pio: any) => {
     socket.on("joinRequest", async (name: string) => {
       let response = await game.join(name, socket.id, gameClientInteraction);
       socket.emit("joinResponse", response);
-
-      socket.on("action", (action: string, amount?: number) => {
-        //game.preflop(action, amount);
-      });
 
       socket.on("sendMessage", (message: string) => {routeMessage(socket.id, message);});
     });

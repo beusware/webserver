@@ -48,11 +48,11 @@ input, button {
   background-color: #315031;
 }
 
-input, button:hover, button:focus {
+input, button:hover {
   color: #FFFFFF;
 }
 
-button:hover, button:focus {
+button:hover {
   background-color: #416d41;
 }
 

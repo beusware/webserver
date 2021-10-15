@@ -1,4 +1,4 @@
-import socketio from "socket.io-client";
+import socketio, { io } from "socket.io-client";
 
 const socket = socketio();
 
@@ -63,7 +63,6 @@ socket.on("joinResponse", (response): void => {
   }
 });
 
-// Schreibt die Blinds, Spielernamen und Chips in die Liste (trigger Z. 80)
 const renderPlayerList = (players: any): void => {
   const elements = document.getElementsByClassName("player");
 
@@ -83,17 +82,10 @@ socket.on("roundStarting", (currentPlayers): void => {
 
 // Empfängt ein messageObject aus game_class evaluateMessage() und rendert dieses im Chatfenster
 socket.on("appendMessage", (messageObject: any): void => {
-  if (messageObject.content) {
-    const p1: HTMLElement = document.createElement("p");
-    p1.innerHTML = `${messageObject.sender}: <span class="${messageObject.type}">${messageObject.content}</span>`;
-    document.querySelector(".messages").appendChild(p1);
-  }
-  
-  if (messageObject.system) {
-    const p2: HTMLElement = document.createElement("p");
-    p2.innerHTML = `Dealer: <span class="system">${messageObject.system}</span>`;
-    document.querySelector(".messages").appendChild(p2);
-  }
+  const p1: HTMLElement = document.createElement("p");
+  // cssClasses: "command", "system", "chit"
+  p1.innerHTML = `${messageObject.sender}: <span class="${messageObject.type}">${messageObject.message}</span>`;
+  document.querySelector(".messages").appendChild(p1);
 });
 
 // Zeigt die ersten beiden Karten
@@ -110,12 +102,36 @@ socket.on("preflop", (card: any): void => {
   }
 });
 
-socket.on("yourTurn", (): void => {
+var buttons: NodeListOf<HTMLButtonElement> = document.querySelectorAll(".action-button");
+for (var i = 0; i <= 2; i++) {
+  buttons[i].disabled = true;
 
-  // TODO: EventListener durch button.disabled ersetzen
-  document.querySelector("#raise").addEventListener("click", () => {
-    socket.emit("action", "raise", 600 /*?? 0*/);
+  // EventListener to trigger Serversideactions
+  // FIXME: Type declaration
+  buttons[i].addEventListener("click", (event: any) => {
+    // disables buttons after click
+    for (var i = 0; i <= 2; i++) {
+      buttons[i].disabled = !buttons[i].disabled; 
+    }
+    
+    if (event.target.innerText == "Raise") {
+      // TODO: Input für Amount
+      socket.emit("sendMessage", `raise 600` /* ${amount} */);
+    } else {
+      socket.emit("sendMessage", event.target.innerText.toLowerCase());
+    }
   });
+}
+
+socket.on("yourTurn", (): void => {
+  // enables the buttons on the Player´s turn 
+  for (var i = 0; i <= 2; i++) {
+    buttons[i].disabled = !buttons[i].disabled; 
+  }
+});
+
+socket.on("checkButtonTo", (innerText): void => {
+  buttons[0].innerText = innerText;  // sonst "Check"
 });
 
 //  **********ENDE SocketIo   **********
