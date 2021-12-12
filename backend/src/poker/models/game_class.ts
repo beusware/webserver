@@ -12,9 +12,7 @@ let interval: NodeJS.Timeout;
 
 export class Game {
   running: boolean = false;
-  // TODO: check welches welches und das Chaos mit zwei Arrays aufräumen
   currentPlayers: Array<Player> = [];
-  players: Array<Player> = [];
   lastBet: number = 0;
   pot: number = 0;
   private _gameClientInteraction: Function;
@@ -29,7 +27,7 @@ export class Game {
       return false;
     }
 
-    let time: number = 30;
+    let time: number = 5;
 
     interval = setInterval(() => {
       if (players.length < 2 || time == 0) {
@@ -52,93 +50,45 @@ export class Game {
   // Startet ein Spiel KEINE RUNDE
   startGame() {
     log("info", "Poker System", "Eine Runde Poker beginnt");
-    this.players = this.currentPlayers;
 
     // TODO: IMPLEMENT ROUNDS
     this.startRound();
   }
 
   startRound() {
-    // Setzt die Blinds für die Spieler
-    const setBlinds = ()  => {
-      const blinds: Array<string> = ["Dealer", "Small Blind", "Big Blind"];
+    const renderPlayerCards = (): void => {
+      this._round.setPlayerCards();
+      let player: Array<Player> = this._round.getPlayer(); 
 
-      const loopBlinds = (startIndex: number): void => {
-        for (let i = 0; i < 3; i++) {
-          if (i == 0 && this.players.length == 2) continue;
-          if (startIndex + i == this.players.length) startIndex = 0 - i;
-
-          this.players[startIndex + i].blind = blinds[i];
-        }
-      }
-
-      if (Util.allObjectsOfArrayWithProperty(this.players, "blind", "").length == this.players.length) {
-        let random: number = Util.randomNumber(0, this.players.length - 1);
-
-        loopBlinds(random);
-      } else {
-        let target: number = this.players.indexOf(Util.objectOfArrayWithProperty(this.players, "blind", "Small Blind"));
-
-        for (let player of this.players) {
-          player.blind = "";
-        }
-
-        loopBlinds(target);
+      for (let element of player) {
+        this._gameClientInteraction({id: element.id, card: element.cards[0]});
+        this._gameClientInteraction({id: element.id, card: element.cards[1]});
       }
     }
-
-    // Jedem Spieler werden zwei Karten gegeben Z. 101 - 111
-    const setPlayerCards = (): void => {
-      let startAt: number;
-      // Sorgt dafür, dass bei 2 Spielern BB die erste bekommt und nicht SB
-      if (this.players.length > 2) {
-        startAt = smallBlind;
-      } else {
-        if (smallBlind == 0) {
-          startAt = 1;
-        } else {
-          startAt = 0;
-        }
-      }
-      
-      for (let i = 0; i < 2; i++) {
-        let startIndex: number = startAt;
-
-        for (let k = 0; k < this.players.length; k++) {
-          if (startIndex + k >= this.players.length) startIndex = 0 - k;
-          
-          let dealed: Card = this._round.dealer.deal();
-          this.players[startIndex+k].cards.push(dealed);
-          this._gameClientInteraction({id: this.players[startIndex+k].id, card: dealed});
-        }
-      }
-    }
-
-    // TODO: Blindsystem ausdenken
-    setBlinds();
-    const smallBlind: number = this.players.indexOf(Util.objectOfArrayWithProperty(this.players, "blind", "Small Blind"));
-
-    this._round = new Round (this.players, smallBlind, [200, 100]);
+    
+    this._round = new Round (this.currentPlayers, [200, 100]);
     
     // Rendert die Spielernamen und zeigt die ersten Blinds an
     this._gameClientInteraction({action: "renderPlayerlist"});
     
     // Gibt jedem Spieler die ersten 2 Karten
-    setPlayerCards();
+    renderPlayerCards();
 
     this._gameClientInteraction(new Message("System", "Die Runde beginnt!", "", true, "chit"));
-    if (smallBlind + 2 < this.players.length) {
+    let smallBlind = this._round.smallBlind;
+    let players = this._round.getPlayer();
+    if (smallBlind + 2 < players.length) {
       // Die unteren beiden können auf Clientside kombiniert werden
-      this._gameClientInteraction (new Message("Dealer", "It´s your turn!", this.players[smallBlind+2].id, false, "system"));
-      this._gameClientInteraction ( {action: "yourTurn", id: this.players[smallBlind+2].id} );
+      this._gameClientInteraction (new Message("Dealer", "It´s your turn!", players[smallBlind+2].id, false, "system"));
+      this._gameClientInteraction ( {action: "yourTurn", id: players[smallBlind+2].id} );
     } else {
       // Die unteren beiden können auf Clientside kombiniert werden
-      this._gameClientInteraction (new Message("Dealer", "It´s your turn!", this.players[smallBlind-this.players.length+2].id, false, "system"));
-      this._gameClientInteraction ( {action: "yourTurn", id: this.players[smallBlind-this.players.length+2].id} );
+      this._gameClientInteraction (new Message("Dealer", "It´s your turn!", players[smallBlind-players.length+2].id, false, "system"));
+      this._gameClientInteraction ( {action: "yourTurn", id: players[smallBlind-players.length+2].id} );
     }
 
     // changes the Check to a Raise after one Player raised
-    for (let player of this.players) {
+    for (let player of players) {
       if (player.lastBet != this._round.lastBet) {
         this._gameClientInteraction({action: "checkButtonTo", innerText: "Call", id: player.id});
       }
@@ -148,7 +98,7 @@ export class Game {
   preflop (id: string, action: string, amount?: number): Message {    
     // changes the Check to a Raise button on Clientsite
     const changeCheckButton = (roundStarting: boolean) => {
-      for (let player of this.players) {
+      for (let player of this._round.getPlayer()) {
         // changes the button back if a new Card is shown
         if (roundStarting) {
           this._gameClientInteraction({action: "checkButtonTo", innerText: "Check", id: player.id});
@@ -164,13 +114,13 @@ export class Game {
     
     // wertet die Action des Spielers aus
     let actionResult: Player = this._round.playersAction(action, amount);
-    
+
     // wenn es null zurückgibt soll die nächste Karte aufgedeckt werden
     if (!actionResult) {
       console.log("Die nächst Karte kann aufgedeckt werden");
       return;
     }
-    
+
     // plyer made unalowed action
     if (id == actionResult.id) {
       this._gameClientInteraction ( {action: "yourTurn", id: actionResult.id} );
@@ -181,8 +131,6 @@ export class Game {
       changeCheckButton(false);
     }
 
-    // logs the action of the Player
-    log("info", "Poker System", `name: ${Util.objectOfArrayWithProperty(this.players, "id", id)} | action: ${action} | amount: ${amount}`);
     // next plyers turn
     this._gameClientInteraction ( {action: "yourTurn", id: actionResult.id} );
     return new Message("Dealer", "It´s your turn!", actionResult.id, false, "system");
@@ -219,7 +167,7 @@ export class Game {
       gameInteraction = this.preflop(socketId, messageObject.content[0], messageObject.amount);
       // TODO: if evtl. überflüssig, sobald preflop immer Message returned
       if (gameInteraction) {
-        // message send back only to the sender because of mistakes in the command 
+        // message send back only to the sender because of mistakes in the player´s command 
         if (messageObject.id == gameInteraction.id) {
           messageObject.toAllPlayers = false;
         }

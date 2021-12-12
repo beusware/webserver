@@ -19,43 +19,51 @@ export class Player {
   }
 
   // Beobachtet das Spiel
-  pass(_: any) {
-    console.log("asd");
+  pass() {
+    this.notPlaying = true;
     return;
   }
 
-  // TODO: @davidpkj: FIX IT
   // Setzt einen höheren Satz als der vorherige Spieler
-  raise(message: string): string {
-    const args: Array<string> = message.split(" ");
-
-    if (args.length == 1) return "So geht das aber nicht du kleiner Dreckssack!";
-
-    let action: string = isNaN(parseInt(args[1])) ? args[1] : "by";
-    let amount: number = isNaN(parseInt(args[1])) ? parseInt(args[2]) : parseInt(args[1]);
-
-    if (action == "to") console.log("raising to " + amount)
-    if (action == "by") console.log("raising by " + amount)
+  // always raise to
+  raise(highestBet: number, amount: number): boolean {
+    // TODO: check if it can get triggered
+    if (!amount) {
+      console.log("ES WURDE KEIN WERT EINGEGEBEN! FIX IT!!!")
+      return true;
+    }
+    // check for enough chips
+    if ((this.chips - (amount - this.lastBet)) < 0 || amount <= highestBet) return true;
+    
+    this.chips -= (amount - this.lastBet);
+    this.lastBet = amount;
+    
+    return false;
   }
 
   // Wenn vorher nicht gesetzt → „ball“ an den nächsten geben
-  check(_: any) { 
-    return;
+  check(highestBet: number): boolean { 
+    if (this.lastBet !== highestBet) return true;
+
+    return false;
   }
 
   // Wenn vorher gesetzt → auf gleiches erhöhen
-  call(_: any) {
+  call(highestBet: number): boolean {
+    // check for enough chips
+    if ((this.chips - (highestBet - this.lastBet)) < 0 ) return true;
+
+    this.chips -= (highestBet - this.lastBet);
+    this.lastBet = highestBet; 
+    
     return;
   }
 
   // Verlässt die lobby
-  quit(_: any) {
-    console.log("asd");
+  quit() {
+    // TODO: remove from Playerlist
+    console.log(this.name + " left the game");
     return;
-  }
-
-  system(_: string) {
-    return _.replace("system ", "");
   }
 
   //cards = [];

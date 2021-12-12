@@ -1,5 +1,3 @@
-import { log } from "../../../../helpers/log_handler";
-
 export class Message{
     sender: string;
     message: string;

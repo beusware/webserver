@@ -88,17 +88,22 @@ socket.on("appendMessage", (messageObject: any): void => {
   document.querySelector(".messages").appendChild(p1);
 });
 
-// Zeigt die ersten beiden Karten
+// shows up the given card
 socket.on("preflop", (card: any): void => {
-  // TODO: THIS MIGHT BREAK, no?
-  let hand: NodeListOf<HTMLImageElement> = document.querySelectorAll(".hand > .card");
-  // makes the URL relative
-  let src: string = "./" + hand[0].src.replace(/^(?:\/\/|[^/]+)*\//, '');
+  let cards: NodeListOf<HTMLImageElement> = document.querySelectorAll(".hand > .card");
+  let onTable: boolean = true;
+  if (cards[1].src.replace(/^(?:\/\/|[^/]+)*\//, '') == "./assets/poker/cards/default.png") onTable = false; // card placed at players hand
   
-  if (src == "./assets/poker/cards/default.png") {
-    hand[0].src = `./assets/poker/cards/${card.suit}${card.number}.png`;
-  } else {
-    hand[1].src = `./assets/poker/cards/${card.suit}${card.number}.png`;
+  const selector: string = onTable ? ".table > .card" : ".hand > .card";
+  cards = document.querySelectorAll(selector);
+  
+  for (let element of cards) {
+    // makes the URL relative
+    let src: string = "./" + element.src.replace(/^(?:\/\/|[^/]+)*\//, '');
+    if (src !== "./assets/poker/cards/default.png") continue // there is already a card at that slot
+
+    element.src = `./assets/poker/cards/${card.suit}${card.number}.png`; // replayces default card with new one 
+    return;
   }
 });
 
